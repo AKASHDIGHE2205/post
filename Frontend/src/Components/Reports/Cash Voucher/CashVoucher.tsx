@@ -4,7 +4,7 @@ import { RootState } from "../../../store/store"
 import FirmModal from "../../Transaction/InwardEntry/FirmModal"
 
 const CashVoucher = () => {
-  const { firm_id, firm_name } = useSelector((state: RootState) => state.postentry)
+  const {firm_name } = useSelector((state: RootState) => state.postentry)
 
   return (
     <>

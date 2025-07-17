@@ -1,37 +1,26 @@
-import { useState, useEffect } from "react";
+import { FC } from "react";
 import { BsCheck2Square } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import Paginations from "../../Helper/Pagination/Pagination";
 import { handleSelectFirm } from "../../../Features/PostEntry/PostEntrySlice";
 import { getFirm } from "../../../Services/Transaction/TransactionsAPI";
+import withDataFetching from "../../../HOC/withDataFetching";
 
-const FirmModal = () => {
+
+interface HOCData {
+  data: any,
+  loading: boolean,
+  currentPage: number
+  setSearchTerm: any
+  handlePageChange: ()=>void;
+  fitem:any;
+  itemperPage: number
+
+}
+
+const FirmModal:FC<HOCData> = ({ data, currentPage, setSearchTerm, handlePageChange, itemperPage,fitem }) => {
     const dispatch = useDispatch();
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState("");
-    const itemperPage = 5;
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await getFirm();
-            setData(response);
-          } catch (error) {      
-            console.log("Something Went wrong...!")
-          }
-        }
-        fetchData();
-      }, [])
-      const indexOfLastItem = currentPage * itemperPage;
-      const indexOfFirstItem = indexOfLastItem - itemperPage;
-    
-      const currentItems = data.filter((item: any) =>
-        (item.firm_name && item.firm_name.toLowerCase().includes(searchTerm.toLowerCase()))
-      ).slice(indexOfFirstItem, indexOfLastItem);
-    
-      const handlePageChange = (page: any) => {
-        setCurrentPage(page);
-      }
+
     
       const handleSelect = (item: any) => {
         dispatch(handleSelectFirm({ id: item.firm_id, name: item.firm_name }));
@@ -87,7 +76,7 @@ const FirmModal = () => {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((item: any, index: number) => (
+            {fitem.map((item: any, index: number) => (
               <tr key={index}>
                 <td>{item.firm_id}</td>
                 <td>{item.firm_name}</td>
@@ -113,6 +102,6 @@ const FirmModal = () => {
     </form>
   </dialog>
   )
-}
-;
-export default FirmModal
+};
+
+export default withDataFetching(getFirm,["firm_name"])(FirmModal);

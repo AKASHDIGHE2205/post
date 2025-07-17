@@ -8,6 +8,8 @@ interface Page {
 
 }
 const Paginations: FC<Page> = ({ currentPage, itemperPage, data, handlePageChange }) => {
+    
+    
     return (
         <div className="flex justify-center sticky  sm:overflow-x-auto">
             <Pagination

@@ -60,7 +60,7 @@ const Register = () => {
           // confirmPassword:values.confirmPassword,  
         }
         try{
-             const responce =  await axios.post("http://192.168.179.25:5002/sign-up",body);
+             const responce =  await axios.post("http://192.168.182.26:5003/registration",body);
              if(responce.status === 200){
               alert("User created successfully");
              }

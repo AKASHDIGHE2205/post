@@ -638,11 +638,10 @@ router.delete("/delVEntry/:id", (req, res) => {
 
 
 
-//Api to View all OUtward details entry
+//Api to View all Outward details entry
 router.post("/getAllOutwardDetails", (req, res) => {
   const { from_date, to_date, firm_id, loc_id } = req.body;
-
-  console.log(from_date, to_date, firm_id, loc_id);
+  //  console.log(from_date, to_date, firm_id, loc_id);
 
   if (!from_date || !to_date) {
     return res.status(400).json({ message: "Missing required query parameters: from_date and to_date" });
@@ -676,8 +675,7 @@ router.post("/getAllOutwardDetails", (req, res) => {
       a.entry_date BETWEEN ? AND ?  
       AND a.status='A' 
       AND a.flag='O' 
-      AND a.loc_id= ?
-      `;
+      AND a.loc_id= ? `;
 
   const params = [from_date, to_date, loc_id];
 

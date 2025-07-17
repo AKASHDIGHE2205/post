@@ -3,7 +3,7 @@ import FirmModal from "../../Transaction/InwardEntry/FirmModal"
 import { RootState } from "../../../store/store"
 
 const LedgerDetails = () => {
-  const { firm_id, firm_name } = useSelector((state: RootState) => state.postentry);
+  const { firm_name } = useSelector((state: RootState) => state.postentry);
   
   
   return (

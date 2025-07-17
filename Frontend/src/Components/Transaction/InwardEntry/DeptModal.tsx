@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsCheck2Square } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import Paginations from "../../Helper/Pagination/Pagination";
@@ -6,17 +6,15 @@ import { handleSelectDept } from "../../../Features/PostEntry/PostEntrySlice";
 import { getDepartment } from "../../../Services/Transaction/TransactionsAPI";
 import { AppDispatch } from "../../../store/store";
 
-
 const DeptModal = () => {
     const dispatch: AppDispatch = useDispatch();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
-    const itemperPage = 5;
-
-
+   
+    const itemperPage = 5;        
     useEffect(() => {
-        const fetchData     = async () => {
+        const fetchData = async () => {
             try {
                 const response = await getDepartment();
                 setData(response);
@@ -26,7 +24,6 @@ const DeptModal = () => {
         }
         fetchData();
     }, [])
-
     const indexOfLastItem = currentPage * itemperPage;
     const indexOfFirstItem = indexOfLastItem - itemperPage;
 
@@ -42,11 +39,14 @@ const DeptModal = () => {
         dispatch(handleSelectDept({ id: item.dept_id, name: item.dept_name }));
         (document.getElementById("deptModal") as HTMLDialogElement).close();
     }
+     
+     
     return (
 
-        <dialog id="deptModal" className="modal">
 
-            <div className="modal-box">
+        <dialog id="deptModal" className="modal">           
+            <div className="modal-box">                
+               
                 <button
                     onClick={() => (document.getElementById("deptModal") as HTMLDialogElement)?.close()}
                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"

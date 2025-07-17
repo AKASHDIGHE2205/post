@@ -8,48 +8,51 @@ import { AppDispatch } from "../../../store/store";
 import { handleSelectPostType } from "../../../Features/PostEntry/PostEntrySlice";
 
 const PostTypeModal = () => {
-  const dispatch:AppDispatch = useDispatch();
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState("");
-    const itemperPage = 5;
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await getPostType();
-            setData(response);
-          } catch (error) {      
-            console.log("Something Went wrong...!")
-          }
-        }
-        fetchData();
-      }, [])
-      const indexOfLastItem = currentPage * itemperPage;
-      const indexOfFirstItem = indexOfLastItem - itemperPage;
-    
-      const currentItems = data.filter((item: any) =>
-        (item.post_name && item.post_name.toLowerCase().includes(searchTerm.toLowerCase()))
-      ).slice(indexOfFirstItem, indexOfLastItem);
-    
-      const handlePageChange = (page: any) => {
-        setCurrentPage(page);
+  const dispatch: AppDispatch = useDispatch();
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const itemperPage = 5;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getPostType();
+        setData(response);
+      } catch (error) {
+        console.log("Something Went wrong...!")
       }
-    
-      const handleSelect = (item: any) => {
-        dispatch(handleSelectPostType({ id: item.post_id, name: item.post_name }));
-        (document.getElementById("postModal") as HTMLDialogElement).close();
-      }
-      
+    }
+    fetchData();
+  }, [])
+  const indexOfLastItem = currentPage * itemperPage;
+  const indexOfFirstItem = indexOfLastItem - itemperPage;
 
-      return (
+  const currentItems = data.filter((item: any) =>
+    (item.post_name && item.post_name.toLowerCase().includes(searchTerm.toLowerCase()))
+  ).slice(indexOfFirstItem, indexOfLastItem);
 
-      <dialog id="postModal" className="modal">
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  }
 
-        
-    
+  const handleSelect = (item: any) => {
+    dispatch(handleSelectPostType({ id: item.post_id, name: item.post_name }));
+    (document.getElementById("postModal") as HTMLDialogElement).close();
+  }
+
+  const handleClose = () => {
+    dispatch(handleSelectPostType({ id: 0, name: "" }));
+    (document.getElementById("postModal") as HTMLDialogElement).close();
+  }
+  return (
+
+    <dialog id="postModal" className="modal">
+
+
+
       <div className="modal-box">
         <button
-          onClick={() => (document.getElementById("postModal") as HTMLDialogElement)?.close()}
+          onClick={handleClose}
           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
         >
           ✕
@@ -98,27 +101,27 @@ const PostTypeModal = () => {
                   <td>{item.post_id}</td>
                   <td>{item.post_name}</td>
                   <td>
-                    <button className="btn btn-sm btn-info btn-outline" onClick={()=>handleSelect(item)}>
+                    <button className="btn btn-sm btn-info btn-outline" onClick={() => handleSelect(item)}>
                       <BsCheck2Square size={15} /> Select
                     </button>
                   </td>
                 </tr>
-         ))} 
+              ))}
             </tbody>
           </table>
         </div>
         <Paginations currentPage={currentPage} itemperPage={itemperPage} handlePageChange={handlePageChange} data={data} />
         <button
-          onClick={() => (document.getElementById("postModal") as HTMLDialogElement)?.close()}
+          onClick={handleClose}
           className="btn float-end p-2 mt-2 btn-sm btn-outline"   >
           Close
         </button>
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button>close</button>
+        <button onClick={handleClose}>close</button>
       </form>
     </dialog>
   )
 }
- 
+
 export default PostTypeModal;

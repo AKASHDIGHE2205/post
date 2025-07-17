@@ -38,7 +38,7 @@ const NameModal = () => {
   }
 
   const handleSelect = (item: any) => {
-    dispatch(handlePartyNames({ id: item.party_id, name: item.party_name,city:item.city_name }));
+    dispatch(handlePartyNames({ id: item.party_id, name: item.party_name, city:item.city_name, party_city:item.party_city }));
     (document.getElementById("NameModal") as HTMLDialogElement).close();
   }
 
